@@ -18,6 +18,12 @@ class Font:
             self.small = ("Helvetica", 20)
             Font.__instance = self
 
+def displayWelcomeWidgets():
+    # Display Welcome Screen Widgets
+    welcome_lbl.pack(pady=10)
+    syringe_lbl.pack(pady=5)
+    button_start.pack(pady=10)
+
 def start():
     # Hide all Widgets for Welcome Screen
     welcome_lbl.pack_forget()
@@ -47,10 +53,7 @@ def back():
     button_back.grid_forget()
     button_start_washing.grid_forget()
     
-    # Display Welcome Screen Widgets
-    welcome_lbl.pack(pady=10)
-    syringe_lbl.pack(pady=5)
-    button_start.pack(pady=10)
+    displayWelcomeWidgets()
     
 
 def start_washing():
@@ -86,6 +89,4 @@ syringe_lbl = Label(image=syringe_img)
 button_start = Button(root, text="START", font=(Font.getInstance().small), command=start)
 
 # Display Widgets
-welcome_lbl.pack(pady=10)
-syringe_lbl.pack(pady=5)
-button_start.pack(pady=10)
+displayWelcomeWidgets()
