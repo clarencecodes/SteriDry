@@ -72,6 +72,16 @@ def displaySterilizingWidgets():
 def hideSterilizingWidgets():
     sterilizing_txt_lbl.pack_forget()
     sterilizing_img_lbl.pack_forget()
+    
+def displayReadyWidgets():
+    ready_txt_lbl.pack(pady=10)
+    ready_img_lbl.pack(pady=5)
+    button_okay.pack(pady=10)
+
+def hideReadyWidgets():
+    ready_txt_lbl.pack_forget()
+    ready_img_lbl.pack_forget()
+    button_okay.pack_forget()
 
 # METHODS FOR USER INTERACTION
 
@@ -81,6 +91,10 @@ def start():
     
 def back():
     hideInsertSyringesWidgets()
+    displayWelcomeWidgets()
+    
+def okay():
+    hideReadyWidgets()
     displayWelcomeWidgets()
 
 def start_washing():
@@ -115,9 +129,7 @@ def sterilize():
     time.sleep(3)
     
     hideSterilizingWidgets()
-    
-    # TODO: display message to let user know that syringes are cleaned and ready for use
-    
+    displayReadyWidgets()
 
 # Configure application
 root = Tk()
@@ -134,11 +146,13 @@ global insert_syringe
 global washing_img
 global drying_img
 global sterilizing_img
+global success_img
 syringe_img = ImageTk.PhotoImage(Image.open("images/syringe.png"))
 insert_syringe_img = ImageTk.PhotoImage(Image.open("images/insert_syringes.jpg"))
 washing_img = ImageTk.PhotoImage(Image.open("images/washing.jpg"))
 drying_img = ImageTk.PhotoImage(Image.open("images/drying.jpg"))
 sterilizing_img = ImageTk.PhotoImage(Image.open("images/sterilizing.jpg"))
+success_img = ImageTk.PhotoImage(Image.open("images/success.png"))
 
 # Define Tkinter Widgets for Welcome Screen
 global welcome_lbl
@@ -175,6 +189,14 @@ global sterilizing_txt_lbl
 global sterilizing_img_lbl
 sterilizing_txt_lbl = Label(text="Sterilizing...", font=(Font.getInstance().large))
 sterilizing_img_lbl = Label(image=sterilizing_img)
+
+# Define Widgets for "Syringes Ready" Screen
+global ready_txt_lbl
+global ready_img_lbl
+global button_okay
+ready_txt_lbl = Label(text="Syringes are cleaned\nand ready for use.", font=(Font.getInstance().large))
+ready_img_lbl = Label(image=success_img)
+button_okay = Button(root, text="OKAY", font=(Font.getInstance().small), command=okay)
 
 # Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
