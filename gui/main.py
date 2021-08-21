@@ -14,8 +14,8 @@ class Font:
         if Font.__instance != None:
             raise Exception("This class is a singleton!")
         else:
-            self.large = ("Helvetica", 30)
-            self.small = ("Helvetica", 16)
+            self.large = ("Helvetica", 28)
+            self.small = ("Helvetica", 20)
             Font.__instance = self
 
 def start():
@@ -27,14 +27,14 @@ def start():
     # Define Widgets for "Insert Syringes" screen
     please_insert_lbl = Label(text="Please Insert Your Syringes for Washing...", font=(Font.getInstance().large))
     insert_syringe_lbl = Label(image=insert_syringe_img)
-    button_back = Button(root, text="Back", font=(Font.getInstance().small), command=back)
-    button_start_washing = Button(root, text="Start Washing", font=(Font.getInstance().small), command=start_washing)
+    button_back = Button(root, text="BACK", font=(Font.getInstance().small), command=back)
+    button_start_washing = Button(root, text="START WASHING", font=(Font.getInstance().small), command=start_washing)
     
     # Display new Widgets
-    please_insert_lbl.grid(row=0, column=0, padx= 20, pady=20, columnspan=2)
-    insert_syringe_lbl.grid(row=1, column=0, pady=10, columnspan=2)
-    button_back.grid(row=2, column=0, pady=20, columnspan=1)
-    button_start_washing.grid(row=2, column=1, pady=20, columnspan=1)
+    please_insert_lbl.grid(row=0, column=0, columnspan=2)
+    insert_syringe_lbl.grid(row=1, column=0, pady=5, columnspan=2)
+    button_back.grid(row=2, column=0, pady=10, columnspan=1)
+    button_start_washing.grid(row=2, column=1, pady=10, columnspan=1)
     
 def back():
     return
@@ -45,6 +45,10 @@ def start_washing():
     
 root = Tk()
 root.geometry('800x480')
+root.grid_rowconfigure(0, weight=1)
+root.grid_rowconfigure(1, weight=1)
+root.grid_columnconfigure(0, weight=1)
+root.grid_columnconfigure(1, weight=1)
 root.title("SteriDry")
 
 # Define images
@@ -62,9 +66,9 @@ sterilizing_img = ImageTk.PhotoImage(Image.open("images/sterilizing.jpg"))
 # Define Tkinter Widgets for Welcome Screen
 welcome_lbl = Label(text="Welcome to SteriDry!", font=(Font.getInstance().large))
 syringe_lbl = Label(image=syringe_img)
-button_start = Button(root, text="Start", font=(Font.getInstance().small), command=start)
+button_start = Button(root, text="START", font=(Font.getInstance().small), command=start)
 
 # Display Widgets
-welcome_lbl.pack(pady=20)
-syringe_lbl.pack(pady=10)
-button_start.pack(pady=20)
+welcome_lbl.pack(pady=10)
+syringe_lbl.pack(pady=5)
+button_start.pack(pady=10)
