@@ -25,6 +25,10 @@ def start():
     button_start.pack_forget()
     
     # Define Widgets for "Insert Syringes" screen
+    global please_insert_lbl
+    global insert_syringe_lbl
+    global button_back
+    global button_start_washing
     please_insert_lbl = Label(text="Please Insert Your Syringes for Washing...", font=(Font.getInstance().large))
     insert_syringe_lbl = Label(image=insert_syringe_img)
     button_back = Button(root, text="BACK", font=(Font.getInstance().small), command=back)
@@ -37,7 +41,17 @@ def start():
     button_start_washing.grid(row=2, column=1, pady=10, columnspan=1)
     
 def back():
-    return
+    # Hide all Widgets for "Insert Syringes" screen
+    please_insert_lbl.grid_forget()
+    insert_syringe_lbl.grid_forget()
+    button_back.grid_forget()
+    button_start_washing.grid_forget()
+    
+    # Display Welcome Screen Widgets
+    welcome_lbl.pack(pady=10)
+    syringe_lbl.pack(pady=5)
+    button_start.pack(pady=10)
+    
 
 def start_washing():
     return
@@ -64,6 +78,9 @@ drying_img = ImageTk.PhotoImage(Image.open("images/drying.jpg"))
 sterilizing_img = ImageTk.PhotoImage(Image.open("images/sterilizing.jpg"))
 
 # Define Tkinter Widgets for Welcome Screen
+global welcome_lbl
+global syringe_lbl
+global button_start
 welcome_lbl = Label(text="Welcome to SteriDry!", font=(Font.getInstance().large))
 syringe_lbl = Label(image=syringe_img)
 button_start = Button(root, text="START", font=(Font.getInstance().small), command=start)
