@@ -115,3 +115,4 @@ washing_img_lbl = Label(image=washing_img)
 
 # Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
+root.mainloop()
