@@ -60,7 +60,18 @@ def hideWashingWidgets():
 def displayDryingWidgets():
     drying_txt_lbl.pack(pady=10)
     drying_img_lbl.pack(pady=5)
+
+def hideDryingWidgets():
+    drying_txt_lbl.pack_forget()
+    drying_img_lbl.pack_forget()
     
+def displaySterilizingWidgets():
+    sterilizing_txt_lbl.pack(pady=10)
+    sterilizing_img_lbl.pack(pady=5)
+    
+def hideSterilizingWidgets():
+    sterilizing_txt_lbl.pack_forget()
+    sterilizing_img_lbl.pack_forget()
 
 # METHODS FOR USER INTERACTION
 
@@ -83,10 +94,30 @@ def start_washing():
 
 def wash():
     # TODO: activate the camera/ML function and water pump instead
-    time.sleep(5)
+    time.sleep(3)
     
     hideWashingWidgets()
     displayDryingWidgets()
+    
+    threading.Thread(target=dry).start() 
+    
+def dry():
+    # TODO: display the camera, and activate the humidity sensor
+    time.sleep(3)
+    
+    hideDryingWidgets()
+    displaySterilizingWidgets()
+    
+    threading.Thread(target=sterilize).start()
+    
+def sterilize():
+    # TODO: display the camera/ML function, and activate the UV light
+    time.sleep(3)
+    
+    hideSterilizingWidgets()
+    
+    # TODO: display message to let user know that syringes are cleaned and ready for use
+    
 
 # Configure application
 root = Tk()
@@ -138,6 +169,12 @@ global drying_txt_lbl
 global drying_img_lbl
 drying_txt_lbl = Label(text="Drying...", font=(Font.getInstance().large))
 drying_img_lbl = Label(image=drying_img)
+
+# Define Widgets for "Sterilizing" Screen
+global sterilizing_txt_lbl
+global sterilizing_img_lbl
+sterilizing_txt_lbl = Label(text="Sterilizing...", font=(Font.getInstance().large))
+sterilizing_img_lbl = Label(image=sterilizing_img)
 
 # Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
