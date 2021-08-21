@@ -23,6 +23,18 @@ def displayWelcomeWidgets():
     welcome_lbl.pack(pady=10)
     syringe_lbl.pack(pady=5)
     button_start.pack(pady=10)
+    
+def displayWashingWidgets():
+    washing_txt_lbl.pack()
+    washing_img_lbl.pack()
+    
+    
+def hideInsertSyringesWidgets():
+    # Hide all Widgets for "Insert Syringes" screen
+    please_insert_lbl.grid_forget()
+    insert_syringe_lbl.grid_forget()
+    button_back.grid_forget()
+    button_start_washing.grid_forget()
 
 def start():
     # Hide all Widgets for Welcome Screen
@@ -47,17 +59,20 @@ def start():
     button_start_washing.grid(row=2, column=1, pady=10, columnspan=1)
     
 def back():
-    # Hide all Widgets for "Insert Syringes" screen
-    please_insert_lbl.grid_forget()
-    insert_syringe_lbl.grid_forget()
-    button_back.grid_forget()
-    button_start_washing.grid_forget()
-    
+    hideInsertSyringesWidgets()
     displayWelcomeWidgets()
     
 
 def start_washing():
-    return
+    hideInsertSyringesWidgets()
+    
+    # Define Widgets for "Washing" Screen
+    global washing_txt_lbl
+    global washing_img_lbl
+    washing_txt_lbl = Label(text="Washing...", font=(Font.getInstance().large))
+    washing_img_lbl = Label(image=washing_img)
+    
+    displayWashingWidgets()
     
     
 root = Tk()
