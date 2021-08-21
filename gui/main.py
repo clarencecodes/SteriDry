@@ -18,16 +18,27 @@ class Font:
             self.small = ("Helvetica", 20)
             Font.__instance = self
 
+
+# HELPER METHODS FOR DISPLAYING & HIDING WIDGETS
+
 def displayWelcomeWidgets():
     # Display Welcome Screen Widgets
     welcome_lbl.pack(pady=10)
     syringe_lbl.pack(pady=5)
     button_start.pack(pady=10)
     
-def displayWashingWidgets():
-    washing_txt_lbl.pack()
-    washing_img_lbl.pack()
+def hideWelcomeWidgets():
+    # Hide all Widgets for Welcome Screen
+    welcome_lbl.pack_forget()
+    syringe_lbl.pack_forget()
+    button_start.pack_forget()
     
+def displayInsertSyringesWidgets():
+    # Display new Widgets
+    please_insert_lbl.grid(row=0, column=0, columnspan=2)
+    insert_syringe_lbl.grid(row=1, column=0, pady=5, columnspan=2)
+    button_back.grid(row=2, column=0, pady=10, columnspan=1)
+    button_start_washing.grid(row=2, column=1, pady=10, columnspan=1)
     
 def hideInsertSyringesWidgets():
     # Hide all Widgets for "Insert Syringes" screen
@@ -35,46 +46,29 @@ def hideInsertSyringesWidgets():
     insert_syringe_lbl.grid_forget()
     button_back.grid_forget()
     button_start_washing.grid_forget()
+    
+def displayWashingWidgets():
+    washing_txt_lbl.pack(pady=10)
+    washing_img_lbl.pack(pady=5)
+    
+
+# METHODS FOR USER INTERACTION
 
 def start():
-    # Hide all Widgets for Welcome Screen
-    welcome_lbl.pack_forget()
-    syringe_lbl.pack_forget()
-    button_start.pack_forget()
-    
-    # Define Widgets for "Insert Syringes" screen
-    global please_insert_lbl
-    global insert_syringe_lbl
-    global button_back
-    global button_start_washing
-    please_insert_lbl = Label(text="Please Insert Your Syringes for Washing...", font=(Font.getInstance().large))
-    insert_syringe_lbl = Label(image=insert_syringe_img)
-    button_back = Button(root, text="BACK", font=(Font.getInstance().small), command=back)
-    button_start_washing = Button(root, text="START WASHING", font=(Font.getInstance().small), command=start_washing)
-    
-    # Display new Widgets
-    please_insert_lbl.grid(row=0, column=0, columnspan=2)
-    insert_syringe_lbl.grid(row=1, column=0, pady=5, columnspan=2)
-    button_back.grid(row=2, column=0, pady=10, columnspan=1)
-    button_start_washing.grid(row=2, column=1, pady=10, columnspan=1)
+    hideWelcomeWidgets()
+    displayInsertSyringesWidgets()
     
 def back():
     hideInsertSyringesWidgets()
     displayWelcomeWidgets()
-    
 
 def start_washing():
     hideInsertSyringesWidgets()
-    
-    # Define Widgets for "Washing" Screen
-    global washing_txt_lbl
-    global washing_img_lbl
-    washing_txt_lbl = Label(text="Washing...", font=(Font.getInstance().large))
-    washing_img_lbl = Label(image=washing_img)
-    
     displayWashingWidgets()
     
     
+
+# Configure application
 root = Tk()
 root.geometry('800x480')
 root.grid_rowconfigure(0, weight=1)
@@ -103,5 +97,21 @@ welcome_lbl = Label(text="Welcome to SteriDry!", font=(Font.getInstance().large)
 syringe_lbl = Label(image=syringe_img)
 button_start = Button(root, text="START", font=(Font.getInstance().small), command=start)
 
-# Display Widgets
+# Define Widgets for "Insert Syringes" screen
+global please_insert_lbl
+global insert_syringe_lbl
+global button_back
+global button_start_washing
+please_insert_lbl = Label(text="Please Insert Your Syringes for Washing...", font=(Font.getInstance().large))
+insert_syringe_lbl = Label(image=insert_syringe_img)
+button_back = Button(root, text="BACK", font=(Font.getInstance().small), command=back)
+button_start_washing = Button(root, text="START WASHING", font=(Font.getInstance().small), command=start_washing)
+
+# Define Widgets for "Washing" Screen
+global washing_txt_lbl
+global washing_img_lbl
+washing_txt_lbl = Label(text="Washing...", font=(Font.getInstance().large))
+washing_img_lbl = Label(image=washing_img)
+
+# Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
