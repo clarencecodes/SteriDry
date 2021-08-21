@@ -1,5 +1,7 @@
 from tkinter import *
 from PIL import ImageTk, Image
+import time
+import threading
 
 class Font:
     __instance = None
@@ -51,6 +53,14 @@ def displayWashingWidgets():
     washing_txt_lbl.pack(pady=10)
     washing_img_lbl.pack(pady=5)
     
+def hideWashingWidgets():
+    washing_txt_lbl.pack_forget()
+    washing_img_lbl.pack_forget()
+    
+def displayDryingWidgets():
+    drying_txt_lbl.pack(pady=10)
+    drying_img_lbl.pack(pady=5)
+    
 
 # METHODS FOR USER INTERACTION
 
@@ -66,7 +76,17 @@ def start_washing():
     hideInsertSyringesWidgets()
     displayWashingWidgets()
     
+    threading.Thread(target=wash).start()
+
+
+# METHODS FOR WASHING, DRYING, STERILIZING
+
+def wash():
+    # TODO: activate the camera/ML function and water pump instead
+    time.sleep(5)
     
+    hideWashingWidgets()
+    displayDryingWidgets()
 
 # Configure application
 root = Tk()
@@ -112,6 +132,12 @@ global washing_txt_lbl
 global washing_img_lbl
 washing_txt_lbl = Label(text="Washing...", font=(Font.getInstance().large))
 washing_img_lbl = Label(image=washing_img)
+
+# Define Widgets for "Drying" Screen
+global drying_txt_lbl
+global drying_img_lbl
+drying_txt_lbl = Label(text="Drying...", font=(Font.getInstance().large))
+drying_img_lbl = Label(image=drying_img)
 
 # Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
