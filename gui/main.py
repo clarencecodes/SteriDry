@@ -166,12 +166,14 @@ global washing_img
 global drying_img
 global sterilizing_img
 global success_img
+global settings_img
 syringe_img = ImageTk.PhotoImage(Image.open("images/syringe.png"))
 insert_syringe_img = ImageTk.PhotoImage(Image.open("images/insert_syringes.jpg"))
 washing_img = ImageTk.PhotoImage(Image.open("images/washing.jpg"))
 drying_img = ImageTk.PhotoImage(Image.open("images/drying.jpg"))
 sterilizing_img = ImageTk.PhotoImage(Image.open("images/sterilizing.jpg"))
 success_img = ImageTk.PhotoImage(Image.open("images/success.png"))
+settings_img = ImageTk.PhotoImage(Image.open("images/settings.png"))
 
 # Define Tkinter Widgets for Welcome Screen
 global welcome_lbl
@@ -179,7 +181,7 @@ global button_settings
 global syringe_lbl
 global button_start
 welcome_lbl = Label(text="Welcome to SteriDry!", font=(Font.getInstance().large))
-button_settings = Button(root, text="Settings", font=(Font.getInstance().small), command=settings)
+button_settings = Button(root, image=settings_img, font=(Font.getInstance().small), command=settings)
 syringe_lbl = Label(image=syringe_img)
 button_start = Button(root, text="START", font=(Font.getInstance().small), command=start)
 
