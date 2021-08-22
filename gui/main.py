@@ -50,6 +50,16 @@ def hideSettingsWidgets():
     button_wash_tank.place_forget()
     last_washed_lbl.place_forget()
     
+def displayWashTankWidgets():
+    washing_tank_txt_lbl.pack(pady=10)
+    washing_img_lbl.pack(pady=5)
+    countdown_lbl.pack(pady=10)
+
+def hideWashTankWidgets():
+    washing_tank_txt_lbl.pack_forget()
+    washing_img_lbl.pack_forget()
+    countdown_lbl.pack_forget()
+    
 def displayInsertSyringesWidgets():
     # Display new Widgets
     please_insert_lbl.grid(row=0, column=0, columnspan=2)
@@ -115,8 +125,10 @@ def settings():
     displaySettingsWidgets()
     
 def wash_tank():
-    print("wash_tank")
     hideSettingsWidgets()
+    displayWashTankWidgets()
+    
+    threading.Thread(target=wash_tank2).start()
     
 def back():
     hideInsertSyringesWidgets()
@@ -146,7 +158,15 @@ def wash():
     hideWashingWidgets()
     displayDryingWidgets()
     
-    threading.Thread(target=dry).start() 
+    threading.Thread(target=dry).start()
+    
+    
+def wash_tank2():
+    # TODO: activate the water pump
+    countdown(3)
+    hideWashTankWidgets()
+    displayWelcomeWidgets()
+    
     
 def dry():
     # TODO: display the camera, and activate the humidity sensor
@@ -209,6 +229,10 @@ settings_txt_lbl = Label(text="Settings", font=(Font.getInstance().large))
 button_wash_tank = Button(root, text="Wash Tank", font=(Font.getInstance().medium), command=wash_tank)
 last_washed_lbl = Label(text="Last washed: 17 Aug 2021, 4:56 PM", font=(Font.getInstance().small))
 button_back_settings = Button(root, text="<", font=(Font.getInstance().small), command=back_from_settings)
+
+# Define Widgets for "Washing Tank" screen
+global washing_tank_txt_lbl
+washing_tank_txt_lbl = Label(text="Washing Tank...", font=(Font.getInstance().large))
 
 # Define Widgets for "Insert Syringes" screen
 global please_insert_lbl
