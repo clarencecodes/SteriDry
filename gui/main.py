@@ -25,15 +25,17 @@ class Font:
 
 def displayWelcomeWidgets():
     # Display Welcome Screen Widgets
-    welcome_lbl.pack(pady=10)
-    syringe_lbl.pack(pady=5)
-    button_start.pack(pady=10)
+    welcome_lbl.place(relx=0.5, rely=0.05, anchor=N)
+    button_settings.place(relx=0.95, rely=0.1, anchor=E)
+    syringe_lbl.place(relx=0.37, rely=0.2)
+    button_start.place(relx=0.5, rely=0.95, anchor=S)
     
 def hideWelcomeWidgets():
     # Hide all Widgets for Welcome Screen
-    welcome_lbl.pack_forget()
-    syringe_lbl.pack_forget()
-    button_start.pack_forget()
+    welcome_lbl.place_forget()
+    button_settings.place_forget()
+    syringe_lbl.place_forget()
+    button_start.place_forget()
     
 def displayInsertSyringesWidgets():
     # Display new Widgets
@@ -94,6 +96,9 @@ def hideReadyWidgets():
 def start():
     hideWelcomeWidgets()
     displayInsertSyringesWidgets()
+    
+def settings():
+    hideWelcomeWidgets()
     
 def back():
     hideInsertSyringesWidgets()
@@ -170,9 +175,11 @@ success_img = ImageTk.PhotoImage(Image.open("images/success.png"))
 
 # Define Tkinter Widgets for Welcome Screen
 global welcome_lbl
+global button_settings
 global syringe_lbl
 global button_start
 welcome_lbl = Label(text="Welcome to SteriDry!", font=(Font.getInstance().large))
+button_settings = Button(root, text="Settings", font=(Font.getInstance().small), command=settings)
 syringe_lbl = Label(image=syringe_img)
 button_start = Button(root, text="START", font=(Font.getInstance().small), command=start)
 
