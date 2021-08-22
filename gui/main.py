@@ -17,7 +17,8 @@ class Font:
             raise Exception("This class is a singleton!")
         else:
             self.large = ("Helvetica", 28)
-            self.small = ("Helvetica", 20)
+            self.medium = ("Helvetica", 20)
+            self.small = ("Helvetica", 14)
             Font.__instance = self
 
 
@@ -36,6 +37,18 @@ def hideWelcomeWidgets():
     button_settings.place_forget()
     syringe_lbl.place_forget()
     button_start.place_forget()
+    
+def displaySettingsWidgets():
+    settings_txt_lbl.place(relx=0.5, rely=0.05, anchor=N)
+    button_back_settings.place(relx=0.1, rely=0.1, anchor=W)
+    button_wash_tank.place(relx=0.1, rely=0.3)
+    last_washed_lbl.place(relx=0.1, rely=0.42)
+
+def hideSettingsWidgets():
+    settings_txt_lbl.place_forget()
+    button_back_settings.place_forget()
+    button_wash_tank.place_forget()
+    last_washed_lbl.place_forget()
     
 def displayInsertSyringesWidgets():
     # Display new Widgets
@@ -99,9 +112,18 @@ def start():
     
 def settings():
     hideWelcomeWidgets()
+    displaySettingsWidgets()
+    
+def wash_tank():
+    print("wash_tank")
+    hideSettingsWidgets()
     
 def back():
     hideInsertSyringesWidgets()
+    displayWelcomeWidgets()
+    
+def back_from_settings():
+    hideSettingsWidgets()
     displayWelcomeWidgets()
     
 def okay():
@@ -174,9 +196,19 @@ global button_settings
 global syringe_lbl
 global button_start
 welcome_lbl = Label(text="Welcome to SteriDry!", font=(Font.getInstance().large))
-button_settings = Button(root, image=settings_img, font=(Font.getInstance().small), command=settings)
+button_settings = Button(root, image=settings_img, font=(Font.getInstance().medium), command=settings)
 syringe_lbl = Label(image=syringe_img)
-button_start = Button(root, text="START", font=(Font.getInstance().small), command=start)
+button_start = Button(root, text="START", font=(Font.getInstance().medium), command=start)
+
+# Define Tkinter Widgets for Settings Screen
+global settings_txt_lbl
+global button_wash_tank
+global last_washed_lbl
+global button_back_settings
+settings_txt_lbl = Label(text="Settings", font=(Font.getInstance().large))
+button_wash_tank = Button(root, text="Wash Tank", font=(Font.getInstance().medium), command=wash_tank)
+last_washed_lbl = Label(text="Last washed: 17 Aug 2021, 4:56 PM", font=(Font.getInstance().small))
+button_back_settings = Button(root, text="<", font=(Font.getInstance().small), command=back_from_settings)
 
 # Define Widgets for "Insert Syringes" screen
 global please_insert_lbl
@@ -185,8 +217,8 @@ global button_back
 global button_start_washing
 please_insert_lbl = Label(text="Please Insert Your Syringes for Washing...", font=(Font.getInstance().large))
 insert_syringe_lbl = Label(image=insert_syringe_img)
-button_back = Button(root, text="BACK", font=(Font.getInstance().small), command=back)
-button_start_washing = Button(root, text="START WASHING", font=(Font.getInstance().small), command=start_washing)
+button_back = Button(root, text="BACK", font=(Font.getInstance().medium), command=back)
+button_start_washing = Button(root, text="START WASHING", font=(Font.getInstance().medium), command=start_washing)
 
 # Define Widgets for "Washing" Screen
 global washing_txt_lbl
@@ -212,10 +244,10 @@ global ready_img_lbl
 global button_okay
 ready_txt_lbl = Label(text="Syringes are cleaned\nand ready for use.", font=(Font.getInstance().large))
 ready_img_lbl = Label(image=success_img)
-button_okay = Button(root, text="OKAY", font=(Font.getInstance().small), command=okay)
+button_okay = Button(root, text="OKAY", font=(Font.getInstance().medium), command=okay)
 
 # Define Widgets for Countdown timer
-countdown_lbl = Label(text="", font=(Font.getInstance().small))  # in main thread
+countdown_lbl = Label(text="", font=(Font.getInstance().medium))  # in main thread
 
 # Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
