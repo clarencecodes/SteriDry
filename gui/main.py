@@ -160,13 +160,6 @@ root.grid_columnconfigure(1, weight=1)
 root.title("SteriDry")
 
 # Define images
-global syringe_img
-global insert_syringe
-global washing_img
-global drying_img
-global sterilizing_img
-global success_img
-global settings_img
 syringe_img = ImageTk.PhotoImage(Image.open("images/syringe.png"))
 insert_syringe_img = ImageTk.PhotoImage(Image.open("images/insert_syringes.jpg"))
 washing_img = ImageTk.PhotoImage(Image.open("images/washing.jpg"))
