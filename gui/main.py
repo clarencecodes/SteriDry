@@ -52,26 +52,32 @@ def hideInsertSyringesWidgets():
 def displayWashingWidgets():
     washing_txt_lbl.pack(pady=10)
     washing_img_lbl.pack(pady=5)
+    countdown_lbl.pack(pady=10)
     
 def hideWashingWidgets():
     washing_txt_lbl.pack_forget()
     washing_img_lbl.pack_forget()
+    countdown_lbl.pack_forget()
     
 def displayDryingWidgets():
     drying_txt_lbl.pack(pady=10)
     drying_img_lbl.pack(pady=5)
+    countdown_lbl.pack(pady=10)
 
 def hideDryingWidgets():
     drying_txt_lbl.pack_forget()
     drying_img_lbl.pack_forget()
+    countdown_lbl.pack_forget()
     
 def displaySterilizingWidgets():
     sterilizing_txt_lbl.pack(pady=10)
     sterilizing_img_lbl.pack(pady=5)
+    countdown_lbl.pack(pady=10)
     
 def hideSterilizingWidgets():
     sterilizing_txt_lbl.pack_forget()
     sterilizing_img_lbl.pack_forget()
+    countdown_lbl.pack_forget()
     
 def displayReadyWidgets():
     ready_txt_lbl.pack(pady=10)
@@ -108,7 +114,7 @@ def start_washing():
 
 def wash():
     # TODO: activate the camera/ML function and water pump instead
-    time.sleep(3)
+    countdown(3)
     
     hideWashingWidgets()
     displayDryingWidgets()
@@ -117,7 +123,7 @@ def wash():
     
 def dry():
     # TODO: display the camera, and activate the humidity sensor
-    time.sleep(3)
+    countdown(3)
     
     hideDryingWidgets()
     displaySterilizingWidgets()
@@ -126,10 +132,18 @@ def dry():
     
 def sterilize():
     # TODO: display the camera/ML function, and activate the UV light
-    time.sleep(3)
+    countdown(3)
     
     hideSterilizingWidgets()
     displayReadyWidgets()
+    
+def countdown(duration):
+    for x in range(duration):
+        time_left = duration-x
+        time_left_txt = "Remaining time: " + str(time_left) + "s"
+        countdown_lbl.config(text = time_left_txt)
+        time.sleep(1)  # one second
+
 
 # Configure application
 root = Tk()
@@ -197,6 +211,9 @@ global button_okay
 ready_txt_lbl = Label(text="Syringes are cleaned\nand ready for use.", font=(Font.getInstance().large))
 ready_img_lbl = Label(image=success_img)
 button_okay = Button(root, text="OKAY", font=(Font.getInstance().small), command=okay)
+
+# Define Widgets for Countdown timer
+countdown_lbl = Label(text="", font=(Font.getInstance().small))  # in main thread
 
 # Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
