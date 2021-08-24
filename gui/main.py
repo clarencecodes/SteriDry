@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 import time
 import threading
+from picamera import PiCamera
 
 class Font:
     __instance = None
@@ -153,6 +154,8 @@ def start_washing():
 
 def wash():
     # TODO: activate the camera/ML function and water pump instead
+    camera.start_preview(fullscreen=False,window=(210,115,400,300))
+    
     countdown(3)
     
     hideWashingWidgets()
@@ -163,7 +166,9 @@ def wash():
     
 def wash_tank2():
     # TODO: activate the water pump
+    camera.start_preview(fullscreen=False,window=(210,115,400,300))
     countdown(3)
+    camera.stop_preview()
     hideWashTankWidgets()
     displayWelcomeWidgets()
     
@@ -180,6 +185,7 @@ def dry():
 def sterilize():
     # TODO: display the camera/ML function, and activate the UV light
     countdown(3)
+    camera.stop_preview()
     
     hideSterilizingWidgets()
     displayReadyWidgets()
@@ -272,6 +278,9 @@ button_okay = Button(root, text="OKAY", font=(Font.getInstance().medium), comman
 
 # Define Widgets for Countdown timer
 countdown_lbl = Label(text="", font=(Font.getInstance().medium))  # in main thread
+
+# Define camera
+camera = PiCamera()
 
 # Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
