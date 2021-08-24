@@ -2,6 +2,7 @@ from tkinter import *
 from PIL import ImageTk, Image
 import time
 import threading
+from picamera import PiCamera
 
 class Font:
     __instance = None
@@ -52,12 +53,12 @@ def hideSettingsWidgets():
     
 def displayWashTankWidgets():
     washing_tank_txt_lbl.pack(pady=10)
-    washing_img_lbl.pack(pady=5)
+    placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
 
 def hideWashTankWidgets():
     washing_tank_txt_lbl.pack_forget()
-    washing_img_lbl.pack_forget()
+    placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
     
 def displayInsertSyringesWidgets():
@@ -76,32 +77,32 @@ def hideInsertSyringesWidgets():
     
 def displayWashingWidgets():
     washing_txt_lbl.pack(pady=10)
-    washing_img_lbl.pack(pady=5)
+    placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
     
 def hideWashingWidgets():
     washing_txt_lbl.pack_forget()
-    washing_img_lbl.pack_forget()
+    placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
     
 def displayDryingWidgets():
     drying_txt_lbl.pack(pady=10)
-    drying_img_lbl.pack(pady=5)
+    placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
 
 def hideDryingWidgets():
     drying_txt_lbl.pack_forget()
-    drying_img_lbl.pack_forget()
+    placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
     
 def displaySterilizingWidgets():
     sterilizing_txt_lbl.pack(pady=10)
-    sterilizing_img_lbl.pack(pady=5)
+    placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
     
 def hideSterilizingWidgets():
     sterilizing_txt_lbl.pack_forget()
-    sterilizing_img_lbl.pack_forget()
+    placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
     
 def displayReadyWidgets():
@@ -153,6 +154,8 @@ def start_washing():
 
 def wash():
     # TODO: activate the camera/ML function and water pump instead
+    camera.start_preview(fullscreen=False,window=(210,115,400,300))
+    
     countdown(3)
     
     hideWashingWidgets()
@@ -163,7 +166,9 @@ def wash():
     
 def wash_tank2():
     # TODO: activate the water pump
+    camera.start_preview(fullscreen=False,window=(210,115,400,300))
     countdown(3)
+    camera.stop_preview()
     hideWashTankWidgets()
     displayWelcomeWidgets()
     
@@ -180,6 +185,7 @@ def dry():
 def sterilize():
     # TODO: display the camera/ML function, and activate the UV light
     countdown(3)
+    camera.stop_preview()
     
     hideSterilizingWidgets()
     displayReadyWidgets()
@@ -202,6 +208,7 @@ root.grid_columnconfigure(1, weight=1)
 root.title("SteriDry")
 
 # Define images
+placeholder_img = ImageTk.PhotoImage(Image.open("images/placeholder.jpg"))
 syringe_img = ImageTk.PhotoImage(Image.open("images/syringe.png"))
 insert_syringe_img = ImageTk.PhotoImage(Image.open("images/insert_syringes.jpg"))
 washing_img = ImageTk.PhotoImage(Image.open("images/washing.jpg"))
@@ -209,6 +216,8 @@ drying_img = ImageTk.PhotoImage(Image.open("images/drying.jpg"))
 sterilizing_img = ImageTk.PhotoImage(Image.open("images/sterilizing.jpg"))
 success_img = ImageTk.PhotoImage(Image.open("images/success.png"))
 settings_img = ImageTk.PhotoImage(Image.open("images/settings.png"))
+
+placeholder_img_lbl = Label(image=placeholder_img)
 
 # Define Tkinter Widgets for Welcome Screen
 global welcome_lbl
@@ -272,6 +281,9 @@ button_okay = Button(root, text="OKAY", font=(Font.getInstance().medium), comman
 
 # Define Widgets for Countdown timer
 countdown_lbl = Label(text="", font=(Font.getInstance().medium))  # in main thread
+
+# Define camera
+camera = PiCamera()
 
 # Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
