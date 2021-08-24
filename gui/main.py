@@ -53,12 +53,12 @@ def hideSettingsWidgets():
     
 def displayWashTankWidgets():
     washing_tank_txt_lbl.pack(pady=10)
-    washing_img_lbl.pack(pady=5)
+    placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
 
 def hideWashTankWidgets():
     washing_tank_txt_lbl.pack_forget()
-    washing_img_lbl.pack_forget()
+    placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
     
 def displayInsertSyringesWidgets():
@@ -77,32 +77,32 @@ def hideInsertSyringesWidgets():
     
 def displayWashingWidgets():
     washing_txt_lbl.pack(pady=10)
-    washing_img_lbl.pack(pady=5)
+    placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
     
 def hideWashingWidgets():
     washing_txt_lbl.pack_forget()
-    washing_img_lbl.pack_forget()
+    placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
     
 def displayDryingWidgets():
     drying_txt_lbl.pack(pady=10)
-    drying_img_lbl.pack(pady=5)
+    placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
 
 def hideDryingWidgets():
     drying_txt_lbl.pack_forget()
-    drying_img_lbl.pack_forget()
+    placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
     
 def displaySterilizingWidgets():
     sterilizing_txt_lbl.pack(pady=10)
-    sterilizing_img_lbl.pack(pady=5)
+    placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
     
 def hideSterilizingWidgets():
     sterilizing_txt_lbl.pack_forget()
-    sterilizing_img_lbl.pack_forget()
+    placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
     
 def displayReadyWidgets():
@@ -208,6 +208,7 @@ root.grid_columnconfigure(1, weight=1)
 root.title("SteriDry")
 
 # Define images
+placeholder_img = ImageTk.PhotoImage(Image.open("images/placeholder.jpg"))
 syringe_img = ImageTk.PhotoImage(Image.open("images/syringe.png"))
 insert_syringe_img = ImageTk.PhotoImage(Image.open("images/insert_syringes.jpg"))
 washing_img = ImageTk.PhotoImage(Image.open("images/washing.jpg"))
@@ -215,6 +216,8 @@ drying_img = ImageTk.PhotoImage(Image.open("images/drying.jpg"))
 sterilizing_img = ImageTk.PhotoImage(Image.open("images/sterilizing.jpg"))
 success_img = ImageTk.PhotoImage(Image.open("images/success.png"))
 settings_img = ImageTk.PhotoImage(Image.open("images/settings.png"))
+
+placeholder_img_lbl = Label(image=placeholder_img)
 
 # Define Tkinter Widgets for Welcome Screen
 global welcome_lbl
