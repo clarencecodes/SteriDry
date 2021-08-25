@@ -31,7 +31,7 @@ def displayWelcomeWidgets():
     # Display Welcome Screen Widgets
     welcome_lbl.place(relx=0.5, rely=0.05, anchor=N)
     button_settings.place(relx=0.95, rely=0.1, anchor=E)
-    syringe_lbl.place(relx=0.37, rely=0.2)
+    syringe_lbl.place(relx=0.5, rely=0.5, anchor=CENTER)
     button_start.place(relx=0.5, rely=0.95, anchor=S)
     
 def hideWelcomeWidgets():
@@ -241,7 +241,7 @@ root.title("SteriDry")
 
 # Define images
 placeholder_img = ImageTk.PhotoImage(Image.open("images/placeholder.jpg"))
-syringe_img = ImageTk.PhotoImage(Image.open("images/syringe.png"))
+syringe_img = ImageTk.PhotoImage(Image.open("images/logo.png"))
 insert_syringe_img = ImageTk.PhotoImage(Image.open("images/insert_syringes.jpg"))
 washing_img = ImageTk.PhotoImage(Image.open("images/washing.jpg"))
 drying_img = ImageTk.PhotoImage(Image.open("images/drying.jpg"))
