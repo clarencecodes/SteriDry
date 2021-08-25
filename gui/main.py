@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import ImageTk, Image
 import time
+import datetime
 import threading
 from picamera import PiCamera
 from sense_hat import SenseHat
@@ -194,6 +195,11 @@ def wash_tank2():
     hideWashTankWidgets()
     displayWelcomeWidgets()
     
+    # Set last washed date to now
+    with open('last_washed_date.txt', 'w') as f:
+        now = datetime.datetime.now()
+        f.write(now.strftime('%c'))
+    
     
 def dry():
     # TODO: activate the humidity sensor
@@ -260,7 +266,11 @@ global last_washed_lbl
 global button_back_settings
 settings_txt_lbl = Label(text="Settings", font=(Font.getInstance().large))
 button_wash_tank = Button(root, text="Wash Tank", font=(Font.getInstance().medium), command=wash_tank)
-last_washed_lbl = Label(text="Last washed: 17 Aug 2021, 4:56 PM", font=(Font.getInstance().small))
+last_washed_date = ""
+with open('last_washed_date.txt') as f:
+    last_washed_date = f.read()
+last_washed_date_txt = "Last washed: " + last_washed_date
+last_washed_lbl = Label(text=last_washed_date_txt, font=(Font.getInstance().small))
 button_back_settings = Button(root, text="<", font=(Font.getInstance().small), command=back_from_settings)
 
 # Define Widgets for "Washing Tank" screen
