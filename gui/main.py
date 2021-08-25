@@ -8,13 +8,13 @@ from sense_hat import SenseHat
 
 class Font:
     __instance = None
-    
+
     @staticmethod
     def getInstance():
         if Font.__instance == None:
             Font()
         return Font.__instance
-    
+
     def __init__(self):
         if Font.__instance != None:
             raise Exception("This class is a singleton!")
@@ -33,14 +33,14 @@ def displayWelcomeWidgets():
     button_settings.place(relx=0.95, rely=0.1, anchor=E)
     syringe_lbl.place(relx=0.5, rely=0.5, anchor=CENTER)
     button_start.place(relx=0.5, rely=0.95, anchor=S)
-    
+
 def hideWelcomeWidgets():
     # Hide all Widgets for Welcome Screen
     welcome_lbl.place_forget()
     button_settings.place_forget()
     syringe_lbl.place_forget()
     button_start.place_forget()
-    
+
 def displaySettingsWidgets():
     settings_txt_lbl.place(relx=0.5, rely=0.05, anchor=N)
     button_back_settings.place(relx=0.1, rely=0.1, anchor=W)
@@ -52,7 +52,7 @@ def hideSettingsWidgets():
     button_back_settings.place_forget()
     button_wash_tank.place_forget()
     last_washed_lbl.place_forget()
-    
+
 def displayWashTankWidgets():
     washing_tank_txt_lbl.pack(pady=10)
     placeholder_img_lbl.pack(pady=5)
@@ -62,31 +62,31 @@ def hideWashTankWidgets():
     washing_tank_txt_lbl.pack_forget()
     placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
-    
+
 def displayInsertSyringesWidgets():
     # Display new Widgets
     please_insert_lbl.grid(row=0, column=0, columnspan=2)
     insert_syringe_lbl.grid(row=1, column=0, pady=5, columnspan=2)
     button_back.grid(row=2, column=0, pady=10, columnspan=1)
     button_start_washing.grid(row=2, column=1, pady=10, columnspan=1)
-    
+
 def hideInsertSyringesWidgets():
     # Hide all Widgets for "Insert Syringes" screen
     please_insert_lbl.grid_forget()
     insert_syringe_lbl.grid_forget()
     button_back.grid_forget()
     button_start_washing.grid_forget()
-    
+
 def displayWashingWidgets():
     washing_txt_lbl.pack(pady=10)
     placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
-    
+
 def hideWashingWidgets():
     washing_txt_lbl.pack_forget()
     placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
-    
+
 def displayDryingWidgets():
     drying_txt_lbl.pack(pady=10)
     placeholder_img_lbl.pack(pady=5)
@@ -96,17 +96,17 @@ def hideDryingWidgets():
     drying_txt_lbl.pack_forget()
     placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
-    
+
 def displaySterilizingWidgets():
     sterilizing_txt_lbl.pack(pady=10)
     placeholder_img_lbl.pack(pady=5)
     countdown_lbl.pack(pady=10)
-    
+
 def hideSterilizingWidgets():
     sterilizing_txt_lbl.pack_forget()
     placeholder_img_lbl.pack_forget()
     countdown_lbl.pack_forget()
-    
+
 def displayReadyWidgets():
     ready_txt_lbl.pack(pady=10)
     ready_img_lbl.pack(pady=5)
@@ -122,25 +122,25 @@ def hideReadyWidgets():
 def start():
     hideWelcomeWidgets()
     displayInsertSyringesWidgets()
-    
+
 def settings():
     hideWelcomeWidgets()
     displaySettingsWidgets()
-    
+
 def wash_tank():
     hideSettingsWidgets()
     displayWashTankWidgets()
-    
+
     threading.Thread(target=wash_tank2).start()
-    
+
 def back():
     hideInsertSyringesWidgets()
     displayWelcomeWidgets()
-    
+
 def back_from_settings():
     hideSettingsWidgets()
     displayWelcomeWidgets()
-    
+
 def okay():
     hideReadyWidgets()
     displayWelcomeWidgets()
@@ -148,7 +148,7 @@ def okay():
 def start_washing():
     hideInsertSyringesWidgets()
     displayWashingWidgets()
-    
+
     threading.Thread(target=wash).start()
 
 
@@ -167,24 +167,24 @@ def switchOnLights():
         white, white, white, white, white, white, white, white
         ]
     sense.set_pixels(pixels)
-    
+
 def switchOffLights():
     sense.clear()
 
 def wash():
     # TODO: activate water pump
     switchOnLights()
-    
+
     camera.start_preview(fullscreen=False,window=(210,115,400,300))
-    
+
     countdown(3)
-    
+
     hideWashingWidgets()
     displayDryingWidgets()
-    
+
     threading.Thread(target=dry).start()
-    
-    
+
+
 def wash_tank2():
     # TODO: activate the water pump
     switchOnLights()
@@ -194,34 +194,36 @@ def wash_tank2():
     switchOffLights()
     hideWashTankWidgets()
     displayWelcomeWidgets()
-    
+
     # Set last washed date to now
     with open('last_washed_date.txt', 'w') as f:
         now = datetime.datetime.now()
         now_text = now.strftime('%c')
         f.write(now_text)
-        last_washed_lbl.config(text = now_text)
-    
-    
+
+        temp = "Last washed: " + now_text
+        last_washed_lbl.config(text = temp)
+
+
 def dry():
     # TODO: activate the humidity sensor
     countdown(3)
-    
+
     switchOffLights()
-    
+
     hideDryingWidgets()
     displaySterilizingWidgets()
-    
+
     threading.Thread(target=sterilize).start()
-    
+
 def sterilize():
     # TODO: activate the UV light
     countdown(3)
     camera.stop_preview()
-    
+
     hideSterilizingWidgets()
     displayReadyWidgets()
-    
+
 def countdown(duration):
     for x in range(duration):
         time_left = duration-x
