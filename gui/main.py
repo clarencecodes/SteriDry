@@ -3,6 +3,7 @@ from PIL import ImageTk, Image
 import time
 import threading
 from picamera import PiCamera
+from sense_hat import SenseHat
 
 class Font:
     __instance = None
@@ -152,8 +153,27 @@ def start_washing():
 
 # METHODS FOR WASHING, DRYING, STERILIZING
 
+def switchOnLights():
+    white = [255,255,255]
+    pixels = [
+        white, white, white, white, white, white, white, white,
+        white, white, white, white, white, white, white, white,
+        white, white, white, white, white, white, white, white,
+        white, white, white, white, white, white, white, white,
+        white, white, white, white, white, white, white, white,
+        white, white, white, white, white, white, white, white,
+        white, white, white, white, white, white, white, white,
+        white, white, white, white, white, white, white, white
+        ]
+    sense.set_pixels(pixels)
+    
+def switchOffLights():
+    sense.clear()
+
 def wash():
-    # TODO: activate the camera/ML function and water pump instead
+    # TODO: activate water pump
+    switchOnLights()
+    
     camera.start_preview(fullscreen=False,window=(210,115,400,300))
     
     countdown(3)
@@ -174,8 +194,10 @@ def wash_tank2():
     
     
 def dry():
-    # TODO: display the camera, and activate the humidity sensor
+    # TODO: activate the humidity sensor
     countdown(3)
+    
+    switchOffLights()
     
     hideDryingWidgets()
     displaySterilizingWidgets()
@@ -183,7 +205,7 @@ def dry():
     threading.Thread(target=sterilize).start()
     
 def sterilize():
-    # TODO: display the camera/ML function, and activate the UV light
+    # TODO: activate the UV light
     countdown(3)
     camera.stop_preview()
     
@@ -282,8 +304,9 @@ button_okay = Button(root, text="OKAY", font=(Font.getInstance().medium), comman
 # Define Widgets for Countdown timer
 countdown_lbl = Label(text="", font=(Font.getInstance().medium))  # in main thread
 
-# Define camera
+# Define camera & sensehat
 camera = PiCamera()
+sense = SenseHat()
 
 # Upon running this Python scrupt, display Widgets for Welcome Screen
 displayWelcomeWidgets()
