@@ -198,7 +198,9 @@ def wash_tank2():
     # Set last washed date to now
     with open('last_washed_date.txt', 'w') as f:
         now = datetime.datetime.now()
-        f.write(now.strftime('%c'))
+        now_text = now.strftime('%c')
+        f.write(now_text)
+        last_washed_lbl.config(text = now_text)
     
     
 def dry():
