@@ -186,9 +186,11 @@ def wash():
     
 def wash_tank2():
     # TODO: activate the water pump
+    switchOnLights()
     camera.start_preview(fullscreen=False,window=(210,115,400,300))
     countdown(3)
     camera.stop_preview()
+    switchOffLights()
     hideWashTankWidgets()
     displayWelcomeWidgets()
     
