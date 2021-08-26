@@ -5,6 +5,7 @@ import datetime
 import threading
 from picamera import PiCamera
 from sense_hat import SenseHat
+import serial
 
 class Font:
     __instance = None
@@ -170,14 +171,26 @@ def switchOnLights():
 
 def switchOffLights():
     sense.clear()
+    
+def check_lid_status():
+    while True:
+        line = ser.readline().decode('utf-8').rstrip()
+        print(line)
+        if line == "lid_open":
+            # Disable start washing button
+            button_start_washing.config(state="disabled")
+        elif line == "lid_closed":
+            # Enable start washing button
+            button_start_washing.config(state="normal")
 
 def wash():
-    # TODO: activate water pump
     switchOnLights()
 
     camera.start_preview(fullscreen=False,window=(210,115,400,300))
+    
+    ser.write(b"fill\n") # activate arduino water pump
 
-    countdown(3)
+    countdown(140)
 
     hideWashingWidgets()
     displayDryingWidgets()
@@ -206,8 +219,8 @@ def wash_tank2():
 
 
 def dry():
-    # TODO: activate the humidity sensor
-    countdown(3)
+    ser.write(b"dry\n") # activate arduino fans
+    countdown(20)
 
     switchOffLights()
 
@@ -217,8 +230,8 @@ def dry():
     threading.Thread(target=sterilize).start()
 
 def sterilize():
-    # TODO: activate the UV light
-    countdown(3)
+    ser.write(b"sterilize\n") # activate arduino uv light
+    countdown(10)
     camera.stop_preview()
 
     hideSterilizingWidgets()
@@ -240,7 +253,7 @@ root.grid_rowconfigure(1, weight=1)
 root.grid_columnconfigure(0, weight=1)
 root.grid_columnconfigure(1, weight=1)
 root.title("SteriDry")
-
+    
 # Define images
 placeholder_img = ImageTk.PhotoImage(Image.open("images/placeholder.jpg"))
 syringe_img = ImageTk.PhotoImage(Image.open("images/logo.png"))
@@ -324,6 +337,16 @@ countdown_lbl = Label(text="", font=(Font.getInstance().medium))  # in main thre
 camera = PiCamera()
 sense = SenseHat()
 
-# Upon running this Python scrupt, display Widgets for Welcome Screen
+# Configure rpi to arduino communication
+global ser
+try:
+    ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+except:
+    ser = serial.Serial('/dev/ttyACM1', 9600, timeout=1)
+ser.flush()
+
+threading.Thread(target=check_lid_status).start()
+        
+# Upon running this Python script, display Widgets for Welcome Screen
 displayWelcomeWidgets()
 root.mainloop()
