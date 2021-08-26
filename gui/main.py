@@ -6,6 +6,7 @@ import threading
 from picamera import PiCamera
 from sense_hat import SenseHat
 import serial
+from slickk_api import classify_syringe
 
 class Font:
     __instance = None
@@ -190,12 +191,28 @@ def wash():
     
     ser.write(b"fill\n") # activate arduino water pump
 
-    countdown(140)
+    countdown(20)
+    
+    countdown_lbl.config(text = "Checking if\nsyringes are clean. Please wait...")
+    file_path = 'syringe.jpg'
+    camera.capture(file_path)
+    classification = classify_syringe(file_path)
+    
+    if classification == 'clean':
+        msg = "Syringes are cleaned.\nMoving onto drying the syringes..."
+        print(msg)
+        countdown_lbl.config(text = msg)
+        time.sleep(2)
+        hideWashingWidgets()
+        displayDryingWidgets()
 
-    hideWashingWidgets()
-    displayDryingWidgets()
-
-    threading.Thread(target=dry).start()
+        threading.Thread(target=dry).start()
+    else:
+        msg = "Syringes are still dirty. Restarting washing cycle..."
+        print(msg)
+        countdown_lbl.config(text = msg)
+        time.sleep(2)
+        wash()
 
 
 def wash_tank2():
@@ -220,7 +237,7 @@ def wash_tank2():
 
 def dry():
     ser.write(b"dry\n") # activate arduino fans
-    countdown(30)
+    countdown(20)
 
     switchOffLights()
 
@@ -231,7 +248,7 @@ def dry():
 
 def sterilize():
     ser.write(b"sterilize\n") # activate arduino uv light
-    countdown(30)
+    countdown(10)
     camera.stop_preview()
 
     hideSterilizingWidgets()
