@@ -191,15 +191,24 @@ def wash():
     
     ser.write(b"fill\n") # activate arduino water pump
 
-    countdown(20)
+    countdown(30)
     
     countdown_lbl.config(text = "Checking if\nsyringes are clean. Please wait...")
     file_path = 'syringe.jpg'
     camera.capture(file_path)
     classification = classify_syringe(file_path)
     
+#     msg = "Syringes are clean.\nNow drying the syringes..."
+#     print(msg)
+#     countdown_lbl.config(text = msg)
+#     time.sleep(2)
+#     hideWashingWidgets()
+#     displayDryingWidgets()
+# 
+#     threading.Thread(target=dry).start()
+    
     if classification == 'clean':
-        msg = "Syringes are cleaned.\nMoving onto drying the syringes..."
+        msg = "Syringes are clean.\nNow drying the syringes..."
         print(msg)
         countdown_lbl.config(text = msg)
         time.sleep(2)
@@ -219,7 +228,7 @@ def wash_tank2():
     # TODO: activate the water pump
     switchOnLights()
     camera.start_preview(fullscreen=False,window=(210,115,400,300))
-    countdown(140)
+    countdown(20)
     camera.stop_preview()
     switchOffLights()
     hideWashTankWidgets()
@@ -237,7 +246,7 @@ def wash_tank2():
 
 def dry():
     ser.write(b"dry\n") # activate arduino fans
-    countdown(20)
+    countdown(30)
 
     switchOffLights()
 
