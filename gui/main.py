@@ -202,7 +202,7 @@ def wash_tank2():
     # TODO: activate the water pump
     switchOnLights()
     camera.start_preview(fullscreen=False,window=(210,115,400,300))
-    countdown(3)
+    countdown(140)
     camera.stop_preview()
     switchOffLights()
     hideWashTankWidgets()
@@ -220,7 +220,7 @@ def wash_tank2():
 
 def dry():
     ser.write(b"dry\n") # activate arduino fans
-    countdown(20)
+    countdown(30)
 
     switchOffLights()
 
@@ -231,7 +231,7 @@ def dry():
 
 def sterilize():
     ser.write(b"sterilize\n") # activate arduino uv light
-    countdown(10)
+    countdown(30)
     camera.stop_preview()
 
     hideSterilizingWidgets()
