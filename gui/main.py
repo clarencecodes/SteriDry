@@ -227,9 +227,10 @@ def wash():
 
 
 def wash_tank2():
-    # TODO: activate the water pump
     camera.start_preview(fullscreen=False,window=(210,115,400,300))
+    ser.write(b"fill\n") # activate arduino water pump
     countdown(80)
+    ser.write(b"done\n")
     camera.stop_preview()
     hideWashTankWidgets()
     displayWelcomeWidgets()
