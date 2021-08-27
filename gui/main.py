@@ -282,6 +282,7 @@ def sterilize():
 
     hideSterilizingWidgets()
     displayReadyWidgets()
+    ser.write(b"done\n")
 
 def countdown(duration):
     for x in range(duration):
