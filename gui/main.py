@@ -191,7 +191,7 @@ def wash():
     
     ser.write(b"fill\n") # activate arduino water pump
 
-    countdown(70)
+    countdown(80)
     
     countdown_lbl.config(text = "Checking if\nsyringes are clean. Please wait...")
     file_path = 'syringe.jpg'
@@ -229,7 +229,7 @@ def wash():
 def wash_tank2():
     # TODO: activate the water pump
     camera.start_preview(fullscreen=False,window=(210,115,400,300))
-    countdown(70)
+    countdown(80)
     camera.stop_preview()
     hideWashTankWidgets()
     displayWelcomeWidgets()
