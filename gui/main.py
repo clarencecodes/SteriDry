@@ -183,6 +183,7 @@ def check_lid_status():
         elif line == "lid_closed":
             # Enable start washing button
             button_start_washing.config(state="normal")
+            break
 
 def wash():
     switchOnLights()
@@ -191,7 +192,7 @@ def wash():
     
     ser.write(b"fill\n") # activate arduino water pump
 
-    countdown(30)
+    countdown(40)
     
     countdown_lbl.config(text = "Checking if\nsyringes are clean. Please wait...")
     file_path = 'syringe.jpg'
@@ -246,14 +247,33 @@ def wash_tank2():
 
 def dry():
     ser.write(b"dry\n") # activate arduino fans
-    countdown(30)
+    countdown(40)
+    
+    countdown_lbl.config(text = "Checking if\nsyringes are dry. Please wait...")
+    ser.write(b"humidity\n")
+    while True:
+        line = ser.readline().decode('utf-8').rstrip()
+        print(line)
+        if line == 'dry':
+            msg = "Syringes are dry.\nNow sterilizing the syringes..."
+            print(msg)
+            countdown_lbl.config(text = msg)
+            time.sleep(2)
+            switchOffLights()
 
-    switchOffLights()
+            hideDryingWidgets()
+            displaySterilizingWidgets()
 
-    hideDryingWidgets()
-    displaySterilizingWidgets()
+            threading.Thread(target=sterilize).start()
+            break
+        elif line == 'wet':
+            msg = "Syringes are still wet. Restarting drying cycle..."
+            print(msg)
+            countdown_lbl.config(text = msg)
+            time.sleep(2)
+            wash()
+            break
 
-    threading.Thread(target=sterilize).start()
 
 def sterilize():
     ser.write(b"sterilize\n") # activate arduino uv light
