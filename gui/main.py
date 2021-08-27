@@ -269,7 +269,7 @@ def dry():
             print(msg)
             countdown_lbl.config(text = msg)
             time.sleep(2)
-            wash()
+            dry()
             break
 
 
